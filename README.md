@@ -1,0 +1,2 @@
+# 3ST
+ Triangle calculator.
