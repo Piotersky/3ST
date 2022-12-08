@@ -58,7 +58,7 @@ fs.readFile(`package.json`, (err, data) => {
           }/3ST/newVer.zip`
         );
         const request = https.get(
-          `https://raw.githubusercontent.com/Piotersky/3ST/tree/main/public`,
+          `https://raw.githubusercontent.com/Piotersky/3ST/tree/main/public/3ST.zip`,
           function (response) {
             response.pipe(file);
 
