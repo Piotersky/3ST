@@ -1,18 +1,16 @@
 {
   "name": "3-sides-of-triangle",
-  "version": "2.0.0",
-  "description": "",
+  "version": "2.2.0",
+  "description": "Triangle calculator.",
   "main": "main.js",
   "author": "Piotersky",
   "license": "MIT",
   "scripts": {
-    "start": "electron main.js",
-    "dev": "nodemon main.js"
+    "start": "electron .",
+    "package": "electron-builder"
   },
   "devDependencies": {
-    "electron": "^19.0.0"
-  },
-  "dependencies": {
-    "nodemon": "^2.0.20"
+    "electron": "^22.0.0",
+    "electron-builder": "^22.10.3"
   }
 }

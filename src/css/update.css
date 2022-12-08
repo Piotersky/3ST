@@ -1,0 +1,17 @@
+html {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 500;
+    background-color: rgb(61, 61, 61);
+    color: rgb(201, 201, 201);
+    font-size: 50px;
+    text-align: center;
+}
+
+#label{
+    padding-bottom: 0px;
+}
+
+#download {
+    width: 400px;
+    height: 25px;
+}

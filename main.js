@@ -72,15 +72,24 @@
 //   })
 // })
 
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
+
+let updateWin;
 
 const createWindow = () => {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+  updateWin = new BrowserWindow({
+    width: 10000,
+    height: 900,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+      contextIsolation: false,
+    },
+    frame: false,
+    resizable: false,
   });
 
-  win.loadFile('index.html');
+  updateWin.loadFile('src/update.html');
 };
 
 app.whenReady().then(() => {
@@ -97,4 +106,24 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+ipcMain.on('openIndex', (event) => {
+  const createWindow = () => {
+    const indexWin = new BrowserWindow({
+      width: 1000,
+      height: 900,
+      webPreferences: {
+        nodeIntegration: true,
+        enableRemoteModule: true,
+        contextIsolation: false,
+      },
+      frame: true,
+      resizable: true,
+    });
+  
+    indexWin.loadFile('src/index.html');
+  };
+  createWindow()
+  updateWin.destroy()
 });
