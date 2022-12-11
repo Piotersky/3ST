@@ -78,8 +78,8 @@ let updateWin;
 
 const createWindow = () => {
   updateWin = new BrowserWindow({
-    width: 10000,
-    height: 900,
+    width: 500,
+    height: 200,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
