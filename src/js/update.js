@@ -27,8 +27,14 @@
 const fs = require("fs");
 const { ipcRenderer } = require("electron");
 const https = require("https");
+const path = require("path");
+const process = require("process");
 
 var currentVer;
+
+function appFolder() {
+  return path.join(process.env.LOCALAPPDATA, "Programs", "3-sides-of-triangle");
+}
 
 fs.readFile(`package.json`, (err, data) => {
   if (err) {
@@ -49,16 +55,16 @@ fs.readFile(`package.json`, (err, data) => {
 
       if (newestVer != currentVer) {
         text.innerText = "Update found!";
-        bar.setAttribute("value", 35)
-
-        let result = ""
+        bar.setAttribute("value", 35);
 
         fetch(
-          "https://github.com/Piotersky/3ST/blob/main/public/3ST.zip"
+          "https://github.com/Piotersky/3ST/blob/main/public/3ST.zip?raw=true"
         ).then((r) => {
           r.text().then((d) => {
-            //console.log();
-            result = d;
+            fs.writeFileSync(appFolder() + "/3ST.zip", d);
+
+            text.innerText = "Starting up...";
+            bar.setAttribute("value", 60);
           });
         });
 
@@ -88,7 +94,7 @@ fs.readFile(`package.json`, (err, data) => {
         //   receivedLength += value.length;
 
         //   bar.setAttribute("value", Math.round((receivedLength / contentLength) * 100))
-          
+
         // }
 
         // // Step 4: concatenate chunks into single Uint8Array
@@ -103,15 +109,6 @@ fs.readFile(`package.json`, (err, data) => {
         // let result = new TextDecoder("utf-8").decode(chunksAll);
 
         // text.innerText="Installing..."
-
-        fs.writeFileSync(`${
-          process.env.APPDATA ||
-          (process.platform == "darwin"
-            ? process.env.HOME + "/Library/Preferences"
-            : process.env.HOME + "/.local/share")
-        }/Local/Programs/3-sides-of-triangle/newVer.zip`, result)
-
-        text.innerText="Starting up..."
 
         //Uruchom
 
