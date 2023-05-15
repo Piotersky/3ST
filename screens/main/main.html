@@ -1,20 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Electron Test App</title>
+    <title>3ST</title>
+
+    <script src="https://unpkg.com/konva@8.3.14/konva.min.js"></script>
+    <link rel="stylesheet" href="main.css">
   </head>
   <body>
-    <h1>This is my auto-updated app</h1>
-    <strong><div id="message">Status message...</div></strong>
+    <br />
+
+    <div id="title">
+      <h1>3ST</h1>
+      <h3 id="title-text"></h3>
+      <div class="lang-menu">
+        <div class="selected-lang">
+          <img id="lang" src="" alt="" width="70px" height="50px" />
+        </div>
+        <ul>
+          <li>
+            <a href="#" onmousedown='change_lang("pl")' class="pl">Polski</a>
+          </li>
+          <li>
+            <a href="#" onmousedown='change_lang("en")' class="en">English</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="message">Status message...</div>
+
+    <div id="inputs">
+      <input type="number" id="a_side" />
+      <p id="a_side_text" class="side_text"></p>
+      <br /><input type="number" id="b_side" />
+      <p id="b_side_text" class="side_text"></p>
+      <br /><input type="number" id="c_side" />
+      <p id="c_side_text" class="side_text"></p>
+    </div>
+
+    <button id="calc" onmousedown="calc()"></button>
 
     <br />
-    <p>
-      This app will demonstrate how we can apply an auto update to an
-      application.sssssssssssssss
-    </p>
+    <p id="ozn" style="font-size: 20px"></p>
+
+    <div id="results">
+      <div id="canvas"></div>
+
+      <div id="legend-div">
+        <p id="type" class="legend"></p>
+        <p id="L" class="legend"></p>
+        <p id="h" class="legend"></p>
+        <p id="s" class="legend"></p>
+        <p id="a1" class="legend"></p>
+        <p id="a2" class="legend"></p>
+        <p id="a3" class="legend"></p>
+        <p id="time" class="legend"></p>
+      </div>
+
+      <abbr title="Signs description"><img src="./img/legenda.png" /></abbr>
+    </div>
+
+    <br />By Piotersky 
+    <br />3ST v.1.0.0
 
     <script defer src="./mainView.js"></script>
   </body>

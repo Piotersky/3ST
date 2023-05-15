@@ -1,10 +1,9 @@
 {
-  "name": "electron-app",
+  "name": "3-sides-of-triangle",
   "version": "1.0.1",
-  "description": "My test electron app",
+  "description": "Triangle calculator",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "nodemon --exec electron .",
     "start": "electron .",
     "dist": "electron-builder"
@@ -15,17 +14,27 @@
     "releaseType": "release"
   },
   "build": {
-    "appId": "com.coderjeet.autoupdater",
-    "productName": "Autoupdater app",
+    "appId": "com.piotersky.3st",
+    "productName": "Triangle calculator",
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "screens/main/img/install.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "screens/main/img/install.ico",
+      "uninstallerIcon": "screens/main/img/install.ico",
+      "license": "license.txt",
+      "shortcutName": "3ST"
     },
     "directories": {
       "output": "dist"
     }
   },
-  "author": "CoderJeet",
-  "license": "ISC",
+  "author": "Piotersky",
+  "license": "",
   "devDependencies": {
     "electron": "^19.0.9",
     "electron-builder": "^23.6.0",
