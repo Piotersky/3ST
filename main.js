@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain, ipcRenderer } = require("electron");
-const MainScreen = require("./screens/main/mainScreen");
+const MainScreen = require("./src/main/mainScreen");
 const Globals = require("./globals");
 const { autoUpdater, AppUpdater } = require("electron-updater");
 
@@ -23,12 +23,6 @@ app.whenReady().then(() => {
   autoUpdater.checkForUpdates();
   curWindow.showMessage(`0;${app.getVersion()}`);
 });
-
-// Checking for updates.
-// Update available. Cur
-// No update available. 
-// Update downloaded. Cu
-
 
 /*New Update Available*/
 autoUpdater.on("update-available", (info) => {
