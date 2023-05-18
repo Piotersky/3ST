@@ -1,13 +1,13 @@
 {
   "name": "3-sides-of-triangle",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Triangle calculator",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
   },
-  "repository": "https://github.com/Piotersky/test-electron-/tree/main",
+  "repository": "https://github.com/Piotersky/3ST/tree/main",
   "publish": {
     "provider": "github",
     "releaseType": "release"

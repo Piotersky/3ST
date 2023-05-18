@@ -1,2 +1,3 @@
-# test-electron-
+# 3ST
  
+Triangle calculator
