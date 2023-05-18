@@ -38,7 +38,7 @@ class MainScreen {
 
     this.handleMessages(this.window);
 
-    this.window.loadFile("./screens/main/main.html");
+    this.window.loadFile("./main.html");
   }
 
   showMessage(message) {

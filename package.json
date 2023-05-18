@@ -17,14 +17,14 @@
     "productName": "Triangle calculator",
     "win": {
       "target": "nsis",
-      "icon": "screens/main/img/install.ico"
+      "icon": "src/main/img/install.ico"
     },
     "nsis": {
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true,
-      "installerIcon": "screens/main/img/install.ico",
-      "uninstallerIcon": "screens/main/img/install.ico",
+      "installerIcon": "src/main/img/install.ico",
+      "uninstallerIcon": "src/main/img/install.ico",
       "license": "license.txt",
       "shortcutName": "3ST"
     },
