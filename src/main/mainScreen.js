@@ -24,7 +24,7 @@ class MainScreen {
       webPreferences: {
         nodeIntegration: true,
             contextIsolation: true,
-        preload: path.join(__dirname, "./src/main/mainPreload.js"),
+        preload: path.join(__dirname, "./mainPreload.js"),
       },
     });
 
@@ -38,7 +38,7 @@ class MainScreen {
 
     this.handleMessages(this.window);
 
-    this.window.loadFile("./main.html");
+    this.window.loadFile("./src/main/main.html");
   }
 
   showMessage(message) {
