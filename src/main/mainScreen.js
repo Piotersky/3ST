@@ -24,7 +24,7 @@ class MainScreen {
       webPreferences: {
         nodeIntegration: true,
             contextIsolation: true,
-        preload: path.join(__dirname, "./mainPreload.js"),
+        preload: path.join(__dirname, "./src/main/mainPreload.js"),
       },
     });
 
