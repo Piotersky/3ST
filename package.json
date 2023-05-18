@@ -4,7 +4,6 @@
   "description": "Triangle calculator",
   "main": "main.js",
   "scripts": {
-    "watch": "nodemon --exec electron .",
     "start": "electron .",
     "dist": "electron-builder"
   },
@@ -37,10 +36,11 @@
   "license": "",
   "devDependencies": {
     "electron": "^19.0.9",
-    "electron-builder": "^23.6.0",
-    "nodemon": "^2.0.19"
+    "electron-builder": "^23.6.0"
   },
   "dependencies": {
+    "electron-root-path": "^1.1.0",
+    "electron-store": "^8.1.0",
     "electron-updater": "^5.3.0"
   }
 }

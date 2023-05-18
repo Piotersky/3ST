@@ -21,23 +21,32 @@ app.whenReady().then(() => {
   });
 
   autoUpdater.checkForUpdates();
-  curWindow.showMessage(`Checking for updates. Current version ${app.getVersion()}`);
+  curWindow.showMessage(`0;${app.getVersion()}`);
 });
+
+// Checking for updates.
+// Update available. Cur
+// No update available. 
+// Update downloaded. Cu
+
 
 /*New Update Available*/
 autoUpdater.on("update-available", (info) => {
-  curWindow.showMessage(`Update available. Current version ${app.getVersion()}`);
+  curWindow.showMessage(`1;${app.getVersion()}`);
   let pth = autoUpdater.downloadUpdate();
   curWindow.showMessage(pth);
 });
 
 autoUpdater.on("update-not-available", (info) => {
-  curWindow.showMessage(`No update available. Current version ${app.getVersion()}`);
+  curWindow.showMessage(`2;${app.getVersion()}`);
 });
 
 /*Download Completion Message*/
 autoUpdater.on("update-downloaded", (info) => {
-  curWindow.showMessage(`Update downloaded. Current version ${app.getVersion()}`);
+  curWindow.showMessage(`3;${app.getVersion()}`);
+  setTimeout(function() {
+    autoUpdater.quitAndInstall();
+  }, 1000)
 });
 
 autoUpdater.on("error", (info) => {

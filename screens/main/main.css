@@ -30,6 +30,10 @@ html {
   color: white;
 }
 
+#message {
+  font-size: 30px;
+}
+
 h1 {
   font-family: "Dancing Script", cursive;
   font-size: 60px;

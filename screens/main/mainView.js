@@ -1,14 +1,10 @@
+// const { ipcRender } = require("electron");
+let dev = false;
+
 document.addEventListener("DOMContentLoaded", function () {
   window.bridge.updateMessage(updateMessage);
 });
 
-function updateMessage(event, message) {
-  console.log("message logged in view");
-  let elemE = document.getElementById("message");
-  elemE.innerHTML = message;
-}
-
-let lang;
 const lang_en = [
   "3ST",
   "3 Sides of Triangle",
@@ -29,7 +25,10 @@ const lang_en = [
   "Angle measure α: ",
   "Angle measure β: ",
   "Angle measure γ: ",
-  "Computing and rendering time: "
+  "Computing and rendering time: ",
+  "Checking for updates...",
+  "Downloading updates...",
+  "Installing updates...",
 ];
 const lang_pl = [
   "3ST",
@@ -51,19 +50,57 @@ const lang_pl = [
   "Miara kąta α: ",
   "Miara kąta β: ",
   "Miara kąta γ: ",
-  "Czas obliczania i renderowania: "
+  "Czas obliczania i renderowania: ",
+  "Sprawdzanie aktualizacji...",
+  "Pobieranie aktualizacji...",
+  "Instalowanie aktualizacji...",
 ];
 
-let lang_elmt = document.getElementById("lang");
+let lang = lang_en;
 
-// if (json.lang == "pl") {
-  lang = lang_pl;
-  lang_elmt.src = "./img/pl.png";
-// }
-// if (json.lang == "en") {
-//   lang = lang_en;
-//   lang_elmt.src = "./img/en.png";
-// }
+let lang_elmt = document.getElementById("lang");
+let ozn_elmt = document.getElementById("ozn");
+let calc_btn = document.getElementById("calc");
+let msg_elmt = document.getElementById("message");
+
+window.api.send("get", "");
+
+window.api.receive("lang", (data) => {
+  if(data == "pl") {
+    lang = lang_pl;
+    lang_elmt.src = "./img/pl.png";
+    setText();
+  }
+  if (data == "en") {
+      lang = lang_en;
+      lang_elmt.src = "./img/en.png";
+      setText();
+    }
+})
+
+if (dev == false) {
+  function updateMessage(event, message) {
+    if (message.split(";")[0] == "0") message = lang[20];
+    if (message.split(";")[0] == "1") message = lang[21];
+    if (message.split(";")[0] == "2") {
+      msg_elmt.style.display = "none";
+      calc_btn.style.display = "inline-block";
+      div_inputs.style.display = "inline-block";
+      ozn_elmt.style.display = "inline";
+    }
+    if (message.split(";")[0] == "3") message = lang[22];
+    msg_elmt = document.getElementById("message");
+    msg_elmt.innerHTML = message;
+  }
+
+  let div_inputs = document.getElementById("inputs");
+
+  div_inputs.style.display = "none";
+  calc_btn.style.display = "none";
+  ozn_elmt.style.display = "none";
+} else {
+  msg_elmt.style.display = "none";
+}
 
 function setText() {
   document.title = lang[0];
@@ -72,26 +109,20 @@ function setText() {
   document.getElementById("a_side_text").textContent = lang[3];
   document.getElementById("b_side_text").textContent = lang[4];
   document.getElementById("c_side_text").textContent = lang[5];
-  document.getElementById("calc").textContent = lang[6];
+  calc_btn.textContent = lang[6];
 }
-
-setText();
 
 function change_lang(language) {
   if (language == "pl") {
     lang = lang_pl;
     lang_elmt.src = "./img/pl.png";
-//     data = JSON.parse(fs.readFileSync(langPath));
-//     data.lang = "pl";
-//     fs.writeFileSync(langPath, JSON.stringify(data));
+    window.api.send("set_pl", "pl");
     setText();
   }
   if (language == "en") {
     lang = lang_en;
     lang_elmt.src = "./img/en.png";
-//     data = JSON.parse(fs.readFileSync(langPath));
-//     data.lang = "en";
-//     fs.writeFileSync(langPath, JSON.stringify(data));
+    window.api.send("set_en", "en");
     setText();
   }
 }
@@ -107,8 +138,8 @@ function calc() {
   b = parseFloat(string_b.replaceAll(",", "."));
   c = parseFloat(string_c.replaceAll(",", "."));
 
-  if(a + b < c || c + b < a || c + a < b) {
-    alert(lang[7])
+  if (a + b < c || c + b < a || c + a < b) {
+    alert(lang[7]);
   }
 
   L = a + b + c; //Obwód
@@ -148,7 +179,6 @@ function calc() {
   let K_elmt = document.getElementById("a1");
   let K2_elmt = document.getElementById("a2");
   let K3_elmt = document.getElementById("a3");
-  let ozn_elmt = document.getElementById("ozn");
 
   /***************************************************************/
 
@@ -271,6 +301,5 @@ function calc() {
   /***************************************************************/
 
   let time = document.getElementById("time");
-  time.textContent =
-    lang[19] + (Date.now() - start) + " ms";
+  time.textContent = lang[19] + (Date.now() - start) + " ms";
 }
