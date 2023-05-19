@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const lang_en = [
-  "3ST",
+  "3STT",
   "3 Sides of Triangle",
   "Signs description:",
   "Side a length",
@@ -31,7 +31,7 @@ const lang_en = [
   "Installing updates...",
 ];
 const lang_pl = [
-  "3ST",
+  "3STT",
   "3 Boki trójkąta   ",
   "Opis oznaczeń:",
   "Długość boku a",
