@@ -1,6 +1,6 @@
 {
   "name": "3-sides-of-triangle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Triangle calculator",
   "main": "main.js",
   "scripts": {
