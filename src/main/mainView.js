@@ -1,12 +1,11 @@
-// const { ipcRender } = require("electron");
-let dev = false;
+let dev = true;
 
 document.addEventListener("DOMContentLoaded", function () {
   window.bridge.updateMessage(updateMessage);
 });
 
 const lang_en = [
-  "3STT",
+  "3ST",
   "3 Sides of Triangle",
   "Signs description:",
   "Side a length",
@@ -31,7 +30,7 @@ const lang_en = [
   "Installing updates...",
 ];
 const lang_pl = [
-  "3STT",
+  "3ST",
   "3 Boki trójkąta   ",
   "Opis oznaczeń:",
   "Długość boku a",
@@ -62,6 +61,7 @@ let lang_elmt = document.getElementById("lang");
 let ozn_elmt = document.getElementById("ozn");
 let calc_btn = document.getElementById("calc");
 let msg_elmt = document.getElementById("message");
+let legenda_elmt = document.getElementById("legenda");
 
 window.api.send("get", "");
 
@@ -80,15 +80,16 @@ window.api.receive("lang", (data) => {
 
 if (dev == false) {
   function updateMessage(event, message) {
-    if (message.split(";")[0] == "0") message = lang[20];
-    if (message.split(";")[0] == "1") message = lang[21];
-    if (message.split(";")[0] == "2") {
+    if (message == "0") message = lang[20];
+    if (message == "1") message = lang[21];
+    if (message == "2") {
       msg_elmt.style.display = "none";
       calc_btn.style.display = "inline-block";
       div_inputs.style.display = "inline-block";
       ozn_elmt.style.display = "inline";
+      legenda_elmt.style.display = "inline";
     }
-    if (message.split(";")[0] == "3") message = lang[22];
+    if (message == "3") message = lang[22];
     msg_elmt = document.getElementById("message");
     msg_elmt.innerHTML = message;
   }
@@ -98,6 +99,7 @@ if (dev == false) {
   div_inputs.style.display = "none";
   calc_btn.style.display = "none";
   ozn_elmt.style.display = "none";
+  legenda_elmt.style.display = "none";
 } else {
   msg_elmt.style.display = "none";
 }
@@ -295,6 +297,35 @@ function calc() {
   });
 
   layer.add(CA);
+
+  var height = new Konva.Line({
+    points: [XC, YC, XC, YA],
+    stroke: "red",
+    strokeWidth: 0.15,
+    lineCap: "round",
+    lineJoin: "round",
+  });
+
+  layer.add(height);
+
+  var half = ( YA - YC ) / 3;
+
+  var h_text = new Konva.Text({
+    x: XC + 0.25,
+    y: half,
+    text: 'h',
+    fontSize: 1.5,
+    fontFamily: 'Calibri',
+    fill: 'white'
+  })
+
+  layer.add(h_text);
+
+  layer.find('Text').forEach((text) => {
+    text.to({
+      scaleY: -text.scaleY(),
+    });
+  });
 
   layer.draw();
 

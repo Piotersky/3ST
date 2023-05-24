@@ -60,11 +60,6 @@ class MainScreen {
     ipcMain.on("get", function() {
       console.log("get")
       let language = storage.get("lang");
-      // if (language) {
-      // } else {
-      //   storage.set("lang", "en");
-      //   language = "en";
-      // }
       win.webContents.send("lang", language)
     });
     ipcMain.on("set_en", function() {

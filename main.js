@@ -21,23 +21,23 @@ app.whenReady().then(() => {
   });
 
   autoUpdater.checkForUpdates();
-  curWindow.showMessage(`0;${app.getVersion()}`);
+  curWindow.showMessage(`0`);
 });
 
 /*New Update Available*/
 autoUpdater.on("update-available", (info) => {
-  curWindow.showMessage(`1;${app.getVersion()}`);
+  curWindow.showMessage(`1`);
   let pth = autoUpdater.downloadUpdate();
   curWindow.showMessage(pth);
 });
 
 autoUpdater.on("update-not-available", (info) => {
-  curWindow.showMessage(`2;${app.getVersion()}`);
+  curWindow.showMessage(`2`);
 });
 
 /*Download Completion Message*/
 autoUpdater.on("update-downloaded", (info) => {
-  curWindow.showMessage(`3;${app.getVersion()}`);
+  curWindow.showMessage(`3`);
   setTimeout(function() {
     autoUpdater.quitAndInstall();
   }, 1000)
