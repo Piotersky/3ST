@@ -66,17 +66,17 @@ let legenda_elmt = document.getElementById("legenda");
 window.api.send("get", "");
 
 window.api.receive("lang", (data) => {
-  if(data == "pl") {
+  if (data == "pl") {
     lang = lang_pl;
     lang_elmt.src = "./img/pl.png";
     setText();
   }
   if (data == "en") {
-      lang = lang_en;
-      lang_elmt.src = "./img/en.png";
-      setText();
-    }
-})
+    lang = lang_en;
+    lang_elmt.src = "./img/en.png";
+    setText();
+  }
+});
 
 if (dev == false) {
   function updateMessage(event, message) {
@@ -140,8 +140,9 @@ function calc() {
   b = parseFloat(string_b.replaceAll(",", "."));
   c = parseFloat(string_c.replaceAll(",", "."));
 
-  if (a + b < c || c + b < a || c + a < b) {
-    alert(lang[7]);
+  if (a + b <= c || c + b <= a || c + a <= b ) {
+    document.getElementById("ozn").textContent = lang[7];
+    return
   }
 
   L = a + b + c; //Obwód
@@ -186,7 +187,7 @@ function calc() {
 
   type_elmt.textContent = lang[12] + type;
   L_elmt.textContent = lang[13] + L;
-  h_elmt.textContent = lang[14] + h;
+  h_elmt.textContent = lang[14] + parseFloat(h.toFixed(4));
   p_elmt.textContent = lang[15] + parseFloat(P.toFixed(4));
   K_elmt.textContent = lang[16] + parseFloat(α.toFixed(4)) + "°";
   K2_elmt.textContent = lang[17] + parseFloat(β.toFixed(4)) + "°";
@@ -253,8 +254,7 @@ function calc() {
   var layer = new Konva.Layer();
   stage.add(layer);
 
-  // Rysujemy obramówkę
-
+  // Dodajemy obramówkę
   var rect = new Konva.Rect({
     x: -12,
     y: -12,
@@ -264,68 +264,184 @@ function calc() {
     stroke: "white",
     strokeWidth: 0.1,
   });
-  layer.add(rect);
 
-  // Rysujemy boki trójkąta
+  var line_a;
+  var line_b;
+  var line_c;
+  var line_h;
+  var text_h;
 
-  var AB = new Konva.Line({
-    points: [XA, YA, XB, YA],
-    stroke: "orange",
-    strokeWidth: 0.25,
-    lineCap: "round",
-    lineJoin: "round",
-  });
+  function refresh(step) {
+    stage.removeChildren(); // Czyścimy canvas
+    //Dodajemy do nowego canvasu
+    var layer = new Konva.Layer();
+    stage.add(layer);
+    layer.add(rect);
 
-  layer.add(AB);
+    if (step == 1) layer.add(line_a);
+    if (step == 2) {
+      layer.add(line_a);
+      layer.add(line_b);
+    }
+    if (step == 3) {
+      layer.add(line_a);
+      layer.add(line_b);
+      layer.add(line_c);
+    }
+    if (step == 4) {
+      layer.add(line_a);
+      layer.add(line_b);
+      layer.add(line_c);
+      layer.add(line_h);
+    }
+    if (step == 5) {
+      layer.add(line_a);
+      layer.add(line_b);
+      layer.add(line_c);
+      layer.add(line_h);
+      layer.add(text_h);
 
-  var BC = new Konva.Line({
-    points: [XB, YA, XC, YC],
-    stroke: "orange",
-    strokeWidth: 0.25,
-    lineCap: "round",
-    lineJoin: "round",
-  });
+      // Lustrzane odbicie
+      layer.find("Text").forEach((text) => {
+        text.to({
+          scaleY: -text.scaleY(),
+        });
+      });
+    }
+    layer.draw(); // Rysujemy
+  }
 
-  layer.add(BC);
+  function animation(X1, Y1, X2, Y2, lenght) {
+    j = (Y2 - Y1) / (X2 - X1);
+    d = (Y1 * (X2 - X1) - X1 * (Y2 - Y1)) / (X2 - X1);
 
-  var CA = new Konva.Line({
-    points: [XC, YC, XA, YA],
-    stroke: "orange",
-    strokeWidth: 0.25,
-    lineCap: "round",
-    lineJoin: "round",
-  });
+    Xci = X1 + (i * (X2 - X1)) / lenght;
+    Yci = j * Xci + d;
 
-  layer.add(CA);
+    return [X1, Y1, Xci, Yci];
+  }
 
-  var height = new Konva.Line({
-    points: [XC, YC, XC, YA],
-    stroke: "red",
-    strokeWidth: 0.15,
-    lineCap: "round",
-    lineJoin: "round",
-  });
+  let i = 1;
+  anim_a();
+  function anim_a() {
+    setTimeout(function () {
+      animation_a();
+      i++;
+      if (i < a * 5) anim_a();
+      else {
+        i = 1;
+        anim_b();
+      }
+    }, 20);
+  }
+  function anim_b() {
+    setTimeout(function () {
+      animation_b();
+      i++;
+      if (i < b * 5) anim_b();
+      else {
+        i = 1;
+        anim_c();
+      }
+    }, 20);
+  }
+  function anim_c() {
+    setTimeout(function () {
+      animation_c();
+      i++;
+      if (i < c * 5) anim_c();
+      else {
+        i = 1;
+        anim_h();
+      }
+    }, 20);
+  }
+  function anim_h() {
+    setTimeout(function () {
+      animation_h();
+      i++;
+      if (i < h * 5) anim_h();
+      else {
+        i = 1;
+        half = YC - ((YC + 10) / 2);
 
-  layer.add(height);
+        text_h = new Konva.Text({
+          x: XC + 0.25,
+          y: half,
+          text: "h",
+          fontSize: 1.5,
+          fontFamily: "Calibri",
+          fill: "white",
+        });
+        refresh(5);
+      }
+    }, 20);
+  }
 
-  var half = ( YA - YC ) / 3;
-
-  var h_text = new Konva.Text({
-    x: XC + 0.25,
-    y: half,
-    text: 'h',
-    fontSize: 1.5,
-    fontFamily: 'Calibri',
-    fill: 'white'
-  })
-
-  layer.add(h_text);
-
-  layer.find('Text').forEach((text) => {
-    text.to({
-      scaleY: -text.scaleY(),
+  function animation_a() {
+    if (XA == XC) {
+      Yci = YA + (((i / 25) * (YC - YA)) / a) * 5;
+      line_a = new Konva.Line({
+        points: [XA, YA, XC, Yci],
+        stroke: "orange",
+        strokeWidth: 0.25,
+        lineCap: "round",
+        lineJoin: "round",
+      });
+    } else {
+      line_a = new Konva.Line({
+        points: animation(XA, YA, XB, YA, a * 5),
+        stroke: "orange",
+        strokeWidth: 0.25,
+        lineCap: "round",
+        lineJoin: "round",
+      });
+    }
+    refresh(1);
+  }
+  function animation_b() {
+    if (XB == XC) {
+      Yci = YA + (((i / 25) * (YC - YA)) / b) * 5;
+      line_b = new Konva.Line({
+        points: [XB, YA, XC, Yci],
+        stroke: "orange",
+        strokeWidth: 0.25,
+        lineCap: "round",
+        lineJoin: "round",
+      });
+    } else {
+      line_b = new Konva.Line({
+        points: animation(XB, YA, XC, YC, b * 5),
+        stroke: "orange",
+        strokeWidth: 0.25,
+        lineCap: "round",
+        lineJoin: "round",
+      });
+    }
+    refresh(2);
+  }
+  function animation_c() {
+    line_c = new Konva.Line({
+      points: animation(XC, YC, XA, YA, c * 5),
+      stroke: "orange",
+      strokeWidth: 0.25,
+      lineCap: "round",
+      lineJoin: "round",
     });
-  });
+    refresh(3);
+  }
+
+  function animation_h() {
+    Yci = YA + (((i / 25) * (YC - YA)) / h) * 5;
+    line_h = new Konva.Line({
+      points: [XC, YA, XC, Yci],
+      stroke: "red",
+      strokeWidth: 0.15,
+      lineCap: "round",
+      lineJoin: "round",
+    });
+    refresh(4);
+  }
 
   layer.draw();
 
