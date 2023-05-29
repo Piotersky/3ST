@@ -1,4 +1,4 @@
-let dev = true;
+let dev = false;
 
 document.addEventListener("DOMContentLoaded", function () {
   window.bridge.updateMessage(updateMessage);
