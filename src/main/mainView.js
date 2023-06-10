@@ -1,7 +1,58 @@
 let dev = false;
 
+function hex2a(hexx) {
+  var hex = hexx.toString();//force conversion
+  var str = '';
+  for (var i = 0; i < hex.length; i += 2)
+      str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+  return str;
+}
+let author = document.getElementById("author");
+
+var str = "42792050696F746572736B793C2F62723E3353542076";
+
+author.innerHTML = `${hex2a(str)}1.0.4`
+
+let div_inputs = document.getElementById("inputs");
+
+function updateMessage(event, message) {
+  if (message == "0") message = lang[20];
+  if (message == "1") message = lang[21];
+  if (message == "2") {
+    msg_elmt.style.display = "none";
+    calc_btn.style.display = "inline-block";
+    div_inputs.style.display = "inline-block";
+    ozn_elmt.style.display = "inline";
+    legenda_elmt.style.display = "inline";
+  }
+  if (message == "3") message = lang[22];
+  msg_elmt = document.getElementById("message");
+  msg_elmt.innerHTML = message;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   window.bridge.updateMessage(updateMessage);
+
+  if (dev == false && navigator.onLine) {
+  
+    div_inputs.style.display = "none";
+    calc_btn.style.display = "none";
+    ozn_elmt.style.display = "none";
+    legenda_elmt.style.display = "none";
+  } 
+  if(dev == true) window.api.send("devTools_on", "");
+  if (dev == true || !navigator.onLine) {
+    msg_elmt.style.display = "none";
+  }
+});
+
+document.addEventListener('keydown', function(key) {
+  if(key.code == "Home") {
+    window.api.send("devTools_on", "");
+  }
+  if(key.code == "End") {
+    window.api.send("devTools_off", "");
+  }
 });
 
 const lang_en = [
@@ -78,32 +129,6 @@ window.api.receive("lang", (data) => {
   }
 });
 
-if (dev == false) {
-  function updateMessage(event, message) {
-    if (message == "0") message = lang[20];
-    if (message == "1") message = lang[21];
-    if (message == "2") {
-      msg_elmt.style.display = "none";
-      calc_btn.style.display = "inline-block";
-      div_inputs.style.display = "inline-block";
-      ozn_elmt.style.display = "inline";
-      legenda_elmt.style.display = "inline";
-    }
-    if (message == "3") message = lang[22];
-    msg_elmt = document.getElementById("message");
-    msg_elmt.innerHTML = message;
-  }
-
-  let div_inputs = document.getElementById("inputs");
-
-  div_inputs.style.display = "none";
-  calc_btn.style.display = "none";
-  ozn_elmt.style.display = "none";
-  legenda_elmt.style.display = "none";
-} else {
-  msg_elmt.style.display = "none";
-}
-
 function setText() {
   document.title = lang[0];
   document.getElementById("title-text").textContent = lang[1];
@@ -129,7 +154,7 @@ function change_lang(language) {
   }
 }
 
-function calc() {
+async function calc() {
   let start = Date.now();
 
   let string_a = document.getElementById("a_side").value;
@@ -140,9 +165,13 @@ function calc() {
   b = parseFloat(string_b.replaceAll(",", "."));
   c = parseFloat(string_c.replaceAll(",", "."));
 
+  if(isNaN(a) || isNaN(b) || isNaN(c)) {
+    return;
+  }
+
   if (a + b <= c || c + b <= a || c + a <= b ) {
     document.getElementById("ozn").textContent = lang[7];
-    return
+    return;
   }
 
   L = a + b + c; //Obwód
@@ -449,4 +478,5 @@ function calc() {
 
   let time = document.getElementById("time");
   time.textContent = lang[19] + (Date.now() - start) + " ms";
+  await time.textContent;
 }

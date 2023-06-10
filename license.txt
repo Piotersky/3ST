@@ -50,8 +50,6 @@ The software product under this License is provided free of charge. Even though 
 
 3.4 The structure, organization and code of the Software are the valuable trade secrets and confidential information of the Licensor. The Licensee agrees not to decompile, disassemble or otherwise attempt to discover the source code of the Software.
 
-3.5 Any attempts to reverse-engineer, copy, clone, modify or alter in any way the installer program without the Licensor's specific approval are strictly prohibited. The Licensee is not authorized to use any plug-in or enhancement that permits to save modifications to a file with software licensed and distributed by the Licensor.
-
 3.6 Trademarks shall be used in accordance with accepted trademark practice, including identification of trademarks owners' names. Trademarks can only be used to identify printed output produced by the Software and such use of any trademark does not give the Licensee any rights of ownership in that trademark.
 
 

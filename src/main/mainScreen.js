@@ -25,6 +25,7 @@ class MainScreen {
         nodeIntegration: true,
             contextIsolation: true,
         preload: path.join(__dirname, "./mainPreload.js"),
+        devTools: storage.get("devTools"),
       },
     });
 
@@ -43,7 +44,6 @@ class MainScreen {
 
   showMessage(message) {
     console.log("showMessage trapped");
-    console.log(message);
     this.window.webContents.send("updateMessage", message);
   }
 
@@ -57,8 +57,13 @@ class MainScreen {
   }
 
   handleMessages(win) {
+    ipcMain.on('devTools_on', function(s) {
+      storage.set("devTools", true);
+    })
+    ipcMain.on('devTools_off', function() {
+      storage.set("devTools", false);
+    })
     ipcMain.on("get", function() {
-      console.log("get")
       let language = storage.get("lang");
       win.webContents.send("lang", language)
     });
